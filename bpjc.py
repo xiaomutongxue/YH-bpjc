@@ -182,10 +182,9 @@ def get_info(account_Authorization,token):
     a = requests.get(url_dingyue).text
 
     decoded_data = str(base64.b64decode(a))
-    decoded_data2 = decoded_data.split("vmess://")[1].replace("\\r\\n", "")
-    decoded_data3 = str(base64.b64decode(decoded_data2), "utf-8")
-    liuliang = decoded_data3.split(",")[1].encode().decode("unicode_escape").replace("\"ps\":\"剩余流量：", "").replace(
-        " GB\"", "")
+    decoded_data2 = decoded_data.split("trojan://")[1].replace("\\r\\n", "")
+    decoded_data3 = str(decoded_data2.split("#")[-1]).encode().decode("utf-8")
+    liuliang = str(requests.utils.unquote(decoded_data3).split("：")[1]).replace(" GB","")
     list={
         'user':email,
         'time_dingyue2':time_stamp,
