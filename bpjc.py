@@ -175,16 +175,14 @@ def get_info(account_Authorization,token):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
     }
     info_re = requests.get(url_info, headers=headers)
-    url_dingyue = 'https://xn--mesv7f5toqlp.com/api/v1/client/subscribe?token='+token
+    url_dingyue = 'https://xn--mesv7f5toqlp.com/api/v1/user/getSubscribe'
     email = info_re.json()["data"]["email"]
     time_stamp = info_re.json()["data"]["expired_at"]
     time_dingyue =time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time_stamp))
-    a = requests.get(url_dingyue).text
-
-    decoded_data = str(base64.b64decode(a))
-    decoded_data2 = decoded_data.split("trojan://")[1].replace("\\r\\n", "")
-    decoded_data3 = str(decoded_data2.split("#")[-1]).encode().decode("utf-8")
-    liuliang = str(requests.utils.unquote(decoded_data3).split("：")[1]).replace(" GB","")
+    a = requests.get(url_dingyue, headers=headers).json()["data"]
+    d= int(a["d"])
+    u=int(a["u"])
+    liuliang = format(100-(d+u)/(1024*1024*1024),".2f")
     list={
         'user':email,
         'time_dingyue2':time_stamp,
